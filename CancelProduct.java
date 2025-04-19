@@ -1,0 +1,89 @@
+package DATN.E_commerce;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.Test;
+
+public class CancelProduct extends BaseTest {
+	private final By product = By.xpath("/html/body/div[7]/div[2]/div[1]/div/div[2]/div/div[3]/div/div/div/div[2]/div[1]/div");
+	private final By addBtn = By.xpath("/html/body/section/div[2]/div[2]/div[4]/div[2]/div[6]");
+	private final By boxBtn = By.xpath("//a[@class='btn-buynow white']");
+	private final By city = By.xpath("//a[contains(text(),'Hà Nội')]");
+	private final By district = By.xpath("//a[contains(text(),'Quận/Huyện')]");
+	private final By districtChild = By.xpath("//a[contains(text(),'Huyện Thanh Trì')]");
+	private final By commune = By.xpath("//a[contains(text(),'Phường/Xã')]");
+	private final By communeChild = By.xpath("//a[contains(text(),'Xã Ngọc Hồi')]");
+	private final By location = By.id("hdLocationAddress");
+	private final By confirmBtn = By.className("location-confirm");
+	private final By cardView = By.xpath("/html/body/header/div[1]/div/a[2]");
+	private final By addInfo = By.xpath("//div[@class='info__cart location']");
+	private final By genderInfo = By.xpath("//span[normalize-space()='Anh']");
+	private final By nameInfo = By.className("capitalize");
+	private final By phoneInfo = By.id("cusPhone");
+	private final By confirmSubmitBtn = By.xpath("//button[contains(text(),'Xác Nhận')]");
+	private final By paymentMethod = By.xpath("//span[contains(text(),'Thanh toán tiền mặt khi nhận hàng')]");
+	private final By orderBtn = By.xpath("//button[contains(text(),'Đặt hàng')]");
+	private final By messageSuccess = By.xpath("//div[@class='alertsuccess-new']");
+	private final By cancelBtn = By.xpath("//a[contains(@class, 'text-[#DD1C1A]') and text()='Hủy']");
+	private final By reason = By.xpath("//label[@for='checkBox_5399']//span[@class='cbx-crmsurvey svelte-qjufql']");
+
+	@Test(priority = 1)
+	public void writeInformation() {
+		click(product);
+		pause(1000);
+		click(addBtn);
+		pause(500);
+		click(city);
+		pause(500);
+		click(district);
+		pause(500);
+		click(districtChild);
+		pause(500);
+		click(commune);
+		pause(500);
+		click(communeChild);
+		pause(500);
+		input(location, "Ngõ 5 Việt Yên");
+		pause(500);
+		click(confirmBtn);
+		pause(500);
+		System.out.println("Đã nhập đầy đủ thông tin");
+	}
+
+	@Test(priority = 2)
+	public void addProductToCard() {
+		click(boxBtn);
+		pause(500);
+		click(cardView);
+		pause(500);
+	}
+	
+	@Test(priority = 3)
+	public void inputInformation() {
+		click(addInfo);
+		click(genderInfo);
+		pause(1000);
+		input(nameInfo, "Nguyen Trung Dat");
+		pause(1000);
+		input(phoneInfo, "0945698365");
+		pause(1000);
+		click(confirmSubmitBtn);
+		pause(1000);
+		click(orderBtn);
+		pause(1000);
+	}
+	@Test(priority = 4)
+	public void checkOrderSuccess() {
+		click(paymentMethod);
+		pause(2000);
+		click(orderBtn);
+		pause(2000);
+		orderSuccess(messageSuccess, "ĐẶT HÀNG THÀNH CÔNG");
+		click(cancelBtn);
+		pause(1000);
+		click(reason);
+		pause(2000);
+		mywait.until(ExpectedConditions.visibilityOfElementLocated(By.id("crmbtnsubmitsurveyError"))).click();
+		pause(1000);
+	}
+}
