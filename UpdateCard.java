@@ -6,9 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 public class UpdateCard extends BaseTest {
-	private final By product_1 = By.xpath("/html/body/div[7]/div[2]/div[1]/div/div[2]/div/div[3]/div/div/div/div[1]/div[1]/div");
-	private final By product_2 = By.xpath("/html/body/div[7]/div[2]/div[1]/div/div[2]/div/div[3]/div/div/div/div[2]/div[1]/div");
-	private final By product_3 = By.xpath("/html/body/div[7]/div[2]/div[1]/div/div[2]/div/div[3]/div/div/div/div[3]/div[1]/div");
+	private final By product_1 = By
+			.xpath("/html/body/div[7]/div[2]/div[1]/div/div[2]/div/div[3]/div/div/div/div[1]/div[1]/div");
+	private final By product_2 = By
+			.xpath("/html/body/div[7]/div[2]/div[1]/div/div[2]/div/div[3]/div/div/div/div[2]/div[1]/div");
+	private final By product_3 = By
+			.xpath("/html/body/div[7]/div[2]/div[1]/div/div[2]/div/div[3]/div/div/div/div[3]/div[1]/div");
 	private final By addBtn = By.xpath("/html/body/section/div[2]/div[2]/div[4]/div[2]/div[6]");
 	private final By boxBtn = By.xpath("//a[@class='btn-buynow white']");
 	private final By city = By.xpath("//a[contains(text(),'Hà Nội')]");
@@ -21,6 +24,7 @@ public class UpdateCard extends BaseTest {
 	private final By cardView = By.xpath("/html/body/header/div[1]/div/a[2]");
 	private final By deleteItem = By.xpath("//button[contains(@class, 'product-quantity__btn-minus')]");
 	private final By deleteBtn = By.xpath("//button[normalize-space()='Xóa']");
+	private final By priceTotal = By.xpath("//div[@class='total-price']");
 
 	@Test(priority = 1)
 	public void writeInformation() {
@@ -50,7 +54,7 @@ public class UpdateCard extends BaseTest {
 		click(boxBtn);
 		pause(1000);
 		driver.navigate().back();
-		
+
 		click(product_2);
 		pause(1000);
 		click(boxBtn);
@@ -80,34 +84,57 @@ public class UpdateCard extends BaseTest {
 		} else {
 			System.out.println("\n❌ Kiểm tra thất bại: Số lượng sản phẩm không đúng");
 		}
+
+		int index = 1;
 		for (WebElement product : productlists) {
 			WebElement nameElement = product.findElement(By.xpath(".//a[@class='product-item__name']"));
 			String productName = nameElement.getText();
-			System.out.println("Tên sản phẩm: " + productName + "\n");
+			System.out.println("Tên sản phẩm " + index + ": " + productName + "\n");
+			index++;
 		}
+
+		WebElement totalPriceElement = driver.findElement(priceTotal);
+		String totalPriceText = totalPriceElement.getText().replaceAll("[^0-9]", "");
+		int totalPrice = Integer.parseInt(totalPriceText);
+		System.out.println("Tổng tiền trong giỏ hàng: " + totalPrice + " đ\n");
 	}
+
 	@Test(priority = 3)
 	public void deleteOneProductFromCard() {
-	    click(deleteItem);
-	    pause(1000);
-	    WebElement deletedProductElement = driver.findElement(By.xpath("//div[@class='product-list']/div[1]//a[@class='product-item__name']"));
-	    String deletedProductName = deletedProductElement.getText();
-	    click(deleteBtn);
-	    pause(3000);
+		click(deleteItem);
+		pause(1000);
+		WebElement deletedProductElement = driver
+				.findElement(By.xpath("//div[@class='product-list']/div[1]//a[@class='product-item__name']"));
+		String deletedProductName = deletedProductElement.getText();
+		click(deleteBtn);
+		pause(3000);
 
-	    List<WebElement> updatedProductList = driver.findElements(By.xpath("//div[@class='product-list']/div"));
-	    int updatedCount = updatedProductList.size();
-	    int expectedCount = 2;
+		List<WebElement> updatedProductList = driver.findElements(By.xpath("//div[@class='product-list']/div"));
+		int updatedCount = updatedProductList.size();
+		int expectedCount = 2;
 
-	    System.out.println("✅ Đã xóa sản phẩm: " + deletedProductName + "\n");
-	    System.out.println("Số sản phẩm mong đợi sau khi xóa: " + expectedCount);
-	    System.out.println("Số sản phẩm thực tế còn lại: " + updatedCount + "\n");
+		System.out.println("✅ Đã xóa sản phẩm: " + deletedProductName + "\n");
+		System.out.println("Số sản phẩm mong đợi sau khi xóa: " + expectedCount + "\n");
+		System.out.println("Số sản phẩm thực tế còn lại: " + updatedCount + "\n");
 
-	    if (updatedCount == expectedCount) {
-	        System.out.println("✅ Kiểm tra thành công: Số lượng sản phẩm sau khi xóa đúng\n");
-	    } else {
-	        System.out.println("❌ Kiểm tra thất bại: Số lượng sản phẩm sau khi xóa không đúng\n");
-	    }
+		if (updatedCount == expectedCount) {
+			System.out.println("✅ Kiểm tra thành công: Số lượng sản phẩm sau khi xóa đúng\n");
+		} else {
+			System.out.println("❌ Kiểm tra thất bại: Số lượng sản phẩm sau khi xóa không đúng\n");
+		}
+
+		int index = 1;
+		for (WebElement product : updatedProductList) {
+			WebElement nameElement = product.findElement(By.xpath(".//a[@class='product-item__name']"));
+			String productName = nameElement.getText();
+			System.out.println("Tên sản phẩm còn lại " + index + ": " + productName + "\n");
+			index++;
+		}
+		System.out.println();
+
+		WebElement totalPriceElement = driver.findElement(priceTotal);
+		String totalPriceText = totalPriceElement.getText().replaceAll("[^0-9]", "");
+		int totalPrice = Integer.parseInt(totalPriceText);
+		System.out.println("Tổng tiền sau khi xóa sản phẩm: " + totalPrice + "đ\n");
 	}
-
 }
