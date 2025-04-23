@@ -4,8 +4,7 @@ import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 public class CancelProduct extends BaseTest {
-	private final By product = By
-			.xpath("/html/body/div[7]/div[2]/div[1]/div/div[2]/div/div[3]/div/div/div/div[2]/div[1]/div");
+	private final By product = By.xpath("//a[@data-id='329429']");
 	private final By addBtn = By.xpath("/html/body/section/div[2]/div[2]/div[4]/div[2]/div[6]");
 	private final By boxBtn = By.xpath("//a[@class='btn-buynow white']");
 	private final By city = By.xpath("//a[contains(text(),'Hà Nội')]");
@@ -80,7 +79,7 @@ public class CancelProduct extends BaseTest {
 		pause(2000);
 		click(orderBtn);
 		pause(2000);
-		orderSuccess(messageSuccess, "ĐẶT HÀNG THÀNH CÔNG.");
+		orderSuccess(messageSuccess, "ĐẶT HÀNG THÀNH CÔNG");
 		click(cancelBtn);
 		pause(1000);
 		click(reason);
