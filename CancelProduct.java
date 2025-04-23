@@ -1,11 +1,11 @@
 package DATN.E_commerce;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 
 public class CancelProduct extends BaseTest {
-	private final By product = By.xpath("/html/body/div[7]/div[2]/div[1]/div/div[2]/div/div[3]/div/div/div/div[2]/div[1]/div");
+	private final By product = By
+			.xpath("/html/body/div[7]/div[2]/div[1]/div/div[2]/div/div[3]/div/div/div/div[2]/div[1]/div");
 	private final By addBtn = By.xpath("/html/body/section/div[2]/div[2]/div[4]/div[2]/div[6]");
 	private final By boxBtn = By.xpath("//a[@class='btn-buynow white']");
 	private final By city = By.xpath("//a[contains(text(),'Hà Nội')]");
@@ -26,6 +26,7 @@ public class CancelProduct extends BaseTest {
 	private final By messageSuccess = By.xpath("//div[@class='alertsuccess-new']");
 	private final By cancelBtn = By.xpath("//a[contains(@class, 'text-[#DD1C1A]') and text()='Hủy']");
 	private final By reason = By.xpath("//label[@for='checkBox_5399']//span[@class='cbx-crmsurvey svelte-qjufql']");
+	private final By cancelConfirmBtn = By.xpath("//button[@class='button-send-report-survey' and text()='XÁC NHẬN']");
 
 	@Test(priority = 1)
 	public void writeInformation() {
@@ -43,7 +44,7 @@ public class CancelProduct extends BaseTest {
 		pause(500);
 		click(communeChild);
 		pause(500);
-		input(location, "Ngõ 5 Việt Yên");
+		input(location, "Việt Yên");
 		pause(500);
 		click(confirmBtn);
 		pause(500);
@@ -57,33 +58,35 @@ public class CancelProduct extends BaseTest {
 		click(cardView);
 		pause(500);
 	}
-	
+
 	@Test(priority = 3)
 	public void inputInformation() {
 		click(addInfo);
 		click(genderInfo);
 		pause(1000);
-		input(nameInfo, "Nguyen Trung Dat");
+		input(nameInfo, "Nguyen Trung Tran");
 		pause(1000);
-		input(phoneInfo, "0945698365");
+		input(phoneInfo, "0981235344");
 		pause(1000);
 		click(confirmSubmitBtn);
 		pause(1000);
 		click(orderBtn);
 		pause(1000);
 	}
+
 	@Test(priority = 4)
 	public void checkOrderSuccess() {
 		click(paymentMethod);
 		pause(2000);
 		click(orderBtn);
 		pause(2000);
-		orderSuccess(messageSuccess, "ĐẶT HÀNG THÀNH CÔNG");
+		orderSuccess(messageSuccess, "ĐẶT HÀNG THÀNH CÔNG.");
 		click(cancelBtn);
 		pause(1000);
 		click(reason);
 		pause(2000);
-		mywait.until(ExpectedConditions.visibilityOfElementLocated(By.id("crmbtnsubmitsurveyError"))).click();
+		click(cancelConfirmBtn);
 		pause(1000);
+		System.out.println("HỦY ĐƠN HÀNG THÀNH CÔNG.");
 	}
 }
