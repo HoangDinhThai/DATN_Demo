@@ -71,18 +71,18 @@ public class CancelProduct extends BaseTest {
 	}
 
 	@Test(priority = 3)
-	public void checkOrderSuccess() {
+	public void checkCancelSuccess() {
 		click(paymentMethod);
 		pause(2000);
 		click(orderBtn);
-		pause(20000);
+		pause(15000);
 		orderSuccess(messageSuccess, "ĐẶT HÀNG THÀNH CÔNG");
 		cancelProduct();
-		pause(20000);
+		pause(10000);
 		click(reason);
 		pause(1000);
 		click(cancelConfirmBtn);
-		pause(10000);
+		pause(2000);
 		System.out.println("HỦY ĐƠN HÀNG THÀNH CÔNG");
 	}
 }
