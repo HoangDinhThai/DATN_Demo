@@ -3,6 +3,7 @@ package DATN.E_commerce;
 import java.time.Duration;
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -98,11 +99,26 @@ public class BaseTest {
 		System.out.println("\nHiển thị thông báo: " + actualText);
 		Assert.assertEquals(actualText, expectedText);
 	}
-
-	@AfterClass
-	public void tearDown() {
-		if (driver != null) {
-			driver.quit();
-		}
+	
+	public void scrollToElement(By locator) {
+	    WebElement element = driver.findElement(locator);
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'})", element);
 	}
+	
+	public void clickAddToCart() {
+		WebElement buyNowButton = driver.findElement(By.cssSelector("a.btn-buynow"));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", buyNowButton);
+	}
+	
+	protected void cancelProduct() {
+		WebElement cancelBtn = driver.findElement(By.xpath("//a[contains(@class, 'text-[#DD1C1A]') and text()='Hủy']"));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", cancelBtn);
+	}
+
+//	@AfterClass
+//	public void tearDown() {
+//		if (driver != null) {
+//			driver.quit();
+//		}
+//	}
 }
